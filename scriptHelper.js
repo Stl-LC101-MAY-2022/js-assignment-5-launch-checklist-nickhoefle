@@ -76,10 +76,6 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
         alert('Make sure to enter valid information for each field!')
     }
 
-    
-
-    
-
     if (validateInput(fuelLevel) === "Is a Number" && validateInput(cargoLevel) === "Is a Number" && validateInput(fuelLevel) !== "Empty" && validateInput(cargoLevel) !== "Empty"){
         validShuttleInput = true;
         event.preventDefault();
@@ -112,7 +108,6 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
             <li id="fuelStatus" data-testid="fuelStatus">Fuel level too low for launch</li>
             <li id="cargoStatus" data-testid="cargoStatus">Cargo mass too heavy for launch</li>
         </ol>`
-        
         event.preventDefault();
     }
 
@@ -149,10 +144,11 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
 };
 
 async function myFetch() {
-    let planetsReturned;
-    planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json")
-    return planetsReturned;
-}
+
+    return await fetch("https://handlers.education.launchcode.org/static/planets.json").then(function (result) {
+        return result.json();
+    })
+    };
 
 function pickPlanet(planets) {
     let randomIndex = Math.floor(Math.random() * planets.length);

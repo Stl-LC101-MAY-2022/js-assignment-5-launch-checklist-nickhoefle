@@ -11,18 +11,18 @@ window.addEventListener("load", function() {
     let listedPlanetsResponse = myFetch();
         listedPlanetsResponse.then(function (result) {
             listedPlanets = result;
-            listedPlanets = listedPlanets.json().then(function (json) {
-            listedPlanets = json;
+            console.log(listedPlanets);
+        }).then(function () {
+            console.log(listedPlanets);
             let planet = pickPlanet(listedPlanets)
-            planet = listedPlanets[planet]
-            let name = planet.name;
-            let diameter = planet.diameter;
-            let star = planet.star;
-            let distance = planet.distance;
-            let moons = planet.moons;
-            let imageUrl = planet.image;
+            randomPlanet = listedPlanets[planet]
+            let name = randomPlanet.name;
+            let diameter = randomPlanet.diameter;
+            let star = randomPlanet.star;
+            let distance = randomPlanet.distance;
+            let moons = randomPlanet.moons;
+            let imageUrl = randomPlanet.image;
             addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl)
             })
         })
     })
-});
