@@ -1,4 +1,3 @@
-// Write your helper functions here!
 require('isomorphic-fetch');
 
 function addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl) {
@@ -13,7 +12,6 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
                     <li>Number of Moons: ${moons}</li>
                 </ol>
                 <img src="${imageUrl}">`
-
 }
 
 function validateInput(testInput) {
@@ -26,34 +24,68 @@ function validateInput(testInput) {
     if (isNaN(Number(testInput)) === true){
         return testInput = "Not a Number"
     }
-    
 }
 
 function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
-    if (validateInput(pilot) !== "Empty"){
-        list.innerHTML = `
-        <ol>
-            <li id="pilotStatus" data-testid="pilotStatus">Pilot ${pilot} ready to go.</li>
-        </ol>`
+    let crewReady = false;
+    let validShuttleInput = false;
+
+    if (validateInput(pilot) === "Empty") {
+        alert('Pilot name required!')
         event.preventDefault();
-    } else { 
-        alert('Pilot Name required!')
-        event.preventDefault();
+    }   
+    
+    if (validateInput(pilot) === "Is a Number") {
+            alert('Pilot name cannot be a number!')
+            event.preventDefault();
     }  
     
-    if (validateInput(copilot) !== "Empty"){
-        list.innerHTML = `
-        <ol>
-            <li id="pilotStatus" data-testid="pilotStatus">Pilot ${pilot} is ready for launch</li>
-            <li id="copilotStatus" data-testid="copilotStatus">Co-pilot ${copilot} is ready for launch</li>
-        </ol>`
-        event.preventDefault();
-    } else { 
-        alert('Co-Pilot Name required!')
-        event.preventDefault();
+    if (validateInput(pilot) !== "Empty" && validateInput(pilot) !== "Is a Number") { 
+            list.innerHTML = `
+            <ol>
+                <li id="pilotStatus" data-testid="pilotStatus">Pilot ${pilot} ready to go.</li>
+            </ol>`    
     }  
+    
+    if (validateInput(copilot) === "Empty") {
+        alert('Co-pilot name required!')
+        event.preventDefault();
+    }   
+    
+    if (validateInput(copilot) === "Is a Number") {
+        alert('Co-pilot name cannot be a number!')
+        event.preventDefault();
+    }   
 
-    if (fuelLevel < 10000 && cargoLevel < 10000 && (validateInput(pilot) !== "Empty" && validateInput(copilot) !== "Empty")){
+    if (validateInput(pilot) !== "Empty" && validateInput(copilot) !== "Empty" && validateInput(pilot) !== "Is a Number" && validateInput(copilot) !== "Is a Number") {
+        crewReady = true;
+        event.preventDefault();
+    }
+
+    if (validateInput(fuelLevel) === "Empty") {
+        alert('Fuel level input is required!')
+        event.preventDefault();
+    }
+
+    if (validateInput(cargoLevel) === "Empty") {
+        alert('Cargo mass input is required!')
+        event.preventDefault();
+    }
+
+    if (validateInput(fuelLevel) === "Not a Number" || validateInput(cargoLevel) === "Not a Number") {
+        alert('Make sure to enter valid information for each field!')
+    }
+
+    
+
+    
+
+    if (validateInput(fuelLevel) === "Is a Number" && validateInput(cargoLevel) === "Is a Number" && validateInput(fuelLevel) !== "Empty" && validateInput(cargoLevel) !== "Empty"){
+        validShuttleInput = true;
+        event.preventDefault();
+    }
+
+    if (fuelLevel < 10000 && cargoLevel < 10000 && crewReady === true && validShuttleInput === true) {
         list.style.visibility = 'visible';
         let status = document.getElementById("launchStatus");
         status.innerHTML = 'Shuttle not ready for launch'
@@ -68,7 +100,7 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
         event.preventDefault();
     }
     
-    if (fuelLevel < 10000 && cargoLevel > 10000 && (validateInput(pilot) !== "Empty" && validateInput(copilot) !== "Empty")){
+    if (fuelLevel < 10000 && cargoLevel > 10000 && crewReady === true && validShuttleInput === true) {
         list.style.visibility = 'visible';
         let status = document.getElementById("launchStatus");
         status.innerHTML = 'Shuttle not ready for launch'
@@ -78,13 +110,13 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
             <li id="pilotStatus" data-testid="pilotStatus">Pilot ${pilot} is ready for launch</li>
             <li id="copilotStatus" data-testid="copilotStatus">Co-pilot ${copilot} is ready for launch</li>
             <li id="fuelStatus" data-testid="fuelStatus">Fuel level too low for launch</li>
-            <li id="cargoStatus" data-testid="cargoStatus">Cargo mass too high for launch</li>
+            <li id="cargoStatus" data-testid="cargoStatus">Cargo mass too heavy for launch</li>
         </ol>`
         
         event.preventDefault();
     }
 
-    if (fuelLevel > 10000 && cargoLevel > 10000 && (validateInput(pilot) !== "Empty" && validateInput(copilot) !== "Empty")){
+    if (fuelLevel >= 10000 && cargoLevel > 10000 && crewReady === true && validShuttleInput === true) {
         list.style.visibility = 'visible';
         let status = document.getElementById("launchStatus");
         status.innerHTML = 'Shuttle not ready for launch'
@@ -94,15 +126,15 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
             <li id="pilotStatus" data-testid="pilotStatus">Pilot ${pilot} is ready for launch</li>
             <li id="copilotStatus" data-testid="copilotStatus">Co-pilot ${copilot} is ready for launch</li>
             <li id="fuelStatus" data-testid="fuelStatus">Fuel level high enough for launch</li>
-            <li id="cargoStatus" data-testid="cargoStatus">Cargo mass too high for launch</li>
+            <li id="cargoStatus" data-testid="cargoStatus">Cargo mass too heavy for launch</li>
         </ol>`
         event.preventDefault();
     }
 
-    if (fuelLevel > 10000 && cargoLevel < 10000 && (validateInput(pilot) !== "Empty" && validateInput(copilot) !== "Empty")){
+    if (fuelLevel >= 10000 && cargoLevel < 10000 && crewReady === true && validShuttleInput === true) {
         list.style.visibility = 'visible';
         let status = document.getElementById("launchStatus");
-        status.innerHTML = 'Shuttle is ready to launch'
+        status.innerHTML = 'Shuttle is Ready for Launch'
         status.style.color = "rgb(65, 159, 106)";
         list.innerHTML = `
         <ol>
