@@ -135,6 +135,7 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
         </ol>`
         event.preventDefault();
     }
+    
 };
 
 async function myFetch() {
